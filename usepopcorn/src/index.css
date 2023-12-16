@@ -338,3 +338,29 @@ body {
   align-items: center;
   justify-content: center;
 }
+.starRatingBox{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+}
+
+.starContainer{
+  display: flex;
+  gap: 5px;
+}
+
+.star{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+ 
+}
+
+.star.on{
+  background-color: red;
+}
+
+.text-container{
+  font-size: 12px;
+}

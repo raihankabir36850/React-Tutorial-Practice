@@ -1,14 +1,17 @@
 import WatchMovieItem from './WatchMovieItem';
+import WatchMovieSummery from './WatchMovieSummery';
 
 function WatchMovieLists({ watched }) {
-    return (
-        <ul className="list list-movies">
-            {watched.map((movie) => (
-                <WatchMovieItem movie={movie} />
-            ))}
-        </ul>
-
-    );
-};
+  return (
+    <>
+      <WatchMovieSummery watched={watched} />
+      <ul className='list list-movies'>
+        {watched.map((movie) => (
+          <WatchMovieItem movie={movie} key={movie.imdbID} />
+        ))}
+      </ul>
+    </>
+  );
+}
 
 export default WatchMovieLists;
