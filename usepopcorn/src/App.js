@@ -8,7 +8,7 @@ import MovieLists from './Component/Box/MovieLists';
 import WatchMovieLists from './Component/Box/WatchMovieLists';
 import './App.css';
 
-export function App() {
+export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
 
@@ -84,5 +84,3 @@ function Star({ mouseEnterHandler, mouseOutHandler, clickHandler, index, full })
     </span>
   );
 }
-
-export default App;
