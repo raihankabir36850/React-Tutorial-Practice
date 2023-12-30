@@ -6,57 +6,86 @@ import NumResults from './Component/NavComponent/NumResults';
 import Box from './Component/Box/Box';
 import MovieLists from './Component/Box/MovieLists';
 import WatchMovieLists from './Component/Box/WatchMovieLists';
+import Loader from './Component/Loader';
+import WatchMovieSummery from './Component/Box/WatchMovieSummery';
+import MovieDetails from './Component/Box/MovieDetails';
+
 import './App.css';
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [query, setQuery] = useState('');
+  const [movieId, setMovieId] = useState('');
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch('https://www.omdbapi.com/?i=tt3896198&apikey=c2876157&s=man');
+        setError('');
+        const res = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=c2876157&s=${query}`);
         if (!res.ok) throw new Error('something went wrong.');
         const data = await res.json();
-        if (data.Response === 'False') throw new Error('Movies not found.');
+        if (data.Response === 'False') throw new Error('⛔️ Movies not found.');
         setMovies(data.Search);
       } catch (error) {
+        setMovies([]);
         setError(error.message);
       } finally {
         setIsLoading(false);
       }
     };
 
+    if (query.length < 3) {
+      setMovies([]);
+      setError('');
+      setIsLoading(false);
+
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
+
+  const searchQueryHandler = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const onClickMovieItem = (id) => {
+    setMovieId((prevId) => (prevId === id ? '' : id));
+    //console.log(id);
+  };
 
   return (
     <>
       <NavComponent>
-        <SearchBar />
-        <NumResults movies={movies} />
+        <SearchBar query={query} searchQueryHandler={searchQueryHandler} />
+        {movies.length > 1 && <NumResults movies={movies} />}
       </NavComponent>
       <div className='main'>
         <Box>
           {isLoading && <Loader message='Loading...' />}
-          {!isLoading && !error && <MovieLists movies={movies} />}
+          {!isLoading && !error && <MovieLists movies={movies} onClickMovieItem={onClickMovieItem} />}
           {error && <Loader message={error} />}
         </Box>
         <Box>
-          <WatchMovieLists watched={watched} />
+          {movieId ? (
+            <MovieDetails movieId={movieId} />
+          ) : (
+            <>
+              <WatchMovieSummery watched={watched} />
+              <WatchMovieLists watched={watched} />
+            </>
+          )}
         </Box>
       </div>
-      <StarRating maxLength={10} />
+      {/* <StarRating maxLength={10} /> */}
     </>
   );
 }
 
-export function Loader({ message }) {
-  return <p className='loader'>{message}</p>;
-}
 export function StarRating({ maxLength }) {
   const [mouseOver, setMouseOver] = useState(0);
   const [rating, setRating] = useState(0);
