@@ -24,12 +24,15 @@ export default function MovieDetails({ movieId, onClosekMovieItem, addWatchItem,
           Director: data.Director,
           imdbID: data.imdbID,
         };
-
+        document.title = `Usepopcorn | ${data.Title}`;
         setMovieDetails({ ...movieData });
-
         setIsLoading(false);
       };
       fetchMovieDetails();
+
+      return () => {
+        document.title = 'usePopcorn';
+      };
     },
     [movieId]
   );
