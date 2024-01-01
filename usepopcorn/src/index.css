@@ -346,7 +346,7 @@ body {
 }
 .starRatingBox{
   display: flex;
-  gap: 5px;
+  gap: 10px;
   align-items: center;
 
 }
@@ -356,8 +356,8 @@ body {
 }
 
 .star{
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
  
 }
@@ -367,7 +367,8 @@ body {
 }
 
 .text-container{
-  font-size: 12px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 

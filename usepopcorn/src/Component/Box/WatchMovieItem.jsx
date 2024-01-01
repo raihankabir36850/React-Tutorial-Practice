@@ -1,4 +1,4 @@
-function WatchMovieItem({ movie }) {
+function WatchMovieItem({ movie, removeWatchItem }) {
   const { Poster, imdbID, Title, imdbRating, userRating, runtime } = movie;
   return (
     <li key={imdbID}>
@@ -17,6 +17,9 @@ function WatchMovieItem({ movie }) {
           <span>⏳</span>
           <span>{runtime} min</span>
         </p>
+        <button className='btn-delete' onClick={() => removeWatchItem(imdbID)}>
+          X
+        </button>
       </div>
     </li>
   );
