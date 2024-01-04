@@ -1,11 +1,11 @@
 import React from 'react';
-import { average } from '../../Helpers/Utlis';
+import { getAverage } from '../../Helpers/Utlis';
 
 export default function WatchMovieSummery({ watched }) {
   const watchedMovieLength = watched.length;
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  const avgImdbRating = getAverage(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = getAverage(watched.map((movie) => movie.userRating));
+  const avgRuntime = getAverage(watched.map((movie) => movie.runtime));
   return (
     <div className='summary'>
       <h2>Movies you watched</h2>
@@ -16,15 +16,15 @@ export default function WatchMovieSummery({ watched }) {
         </p>
         <p>
           <span>⭐️</span>
-          <span>{avgImdbRating}</span>
+          <span>{avgImdbRating.toFixed(2)}</span>
         </p>
         <p>
           <span>🌟</span>
-          <span>{avgUserRating}</span>
+          <span>{avgUserRating.toFixed(2)}</span>
         </p>
         <p>
           <span>⏳</span>
-          <span>{avgRuntime} min</span>
+          <span>{avgRuntime.toFixed(2)} min</span>
         </p>
       </div>
     </div>

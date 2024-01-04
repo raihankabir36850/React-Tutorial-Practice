@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Loader from '../Loader';
 import StarRating from '../StarRating';
+import useFetchMovieDetails from '../../hooks/useFetchMovieDetails';
 
 export default function MovieDetails({ movieId, onClosekMovieItem, addWatchItem, watched }) {
-  const [movieDetails, setMovieDetails] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-
+  const { movieDetails, isLoading } = useFetchMovieDetails(movieId);
   const selectedMovieDetail = watched.find((item) => item.imdbID === movieDetails.imdbID);
 
   function addMovieInWatchList(rating, count) {
@@ -24,33 +23,15 @@ export default function MovieDetails({ movieId, onClosekMovieItem, addWatchItem,
 
   useEffect(
     function () {
-      const fetchMovieDetails = async () => {
-        setIsLoading(true);
-        const res = await fetch(`https://www.omdbapi.com/?apikey=c2876157&i=${movieId}`);
-        const data = await res.json();
-        const movieData = {
-          Poster: data.Poster,
-          Title: data.Title,
-          Released: data.Released,
-          Runtime: data.Runtime,
-          Genre: data.Genre,
-          imdbRating: data.imdbRating,
-          Plot: data.Plot,
-          Actors: data.Actors,
-          Director: data.Director,
-          imdbID: data.imdbID,
-        };
-        document.title = `Usepopcorn | ${data.Title}`;
-        setMovieDetails({ ...movieData });
-        setIsLoading(false);
-      };
-      fetchMovieDetails();
-
+      if (!movieDetails.Title) {
+        return;
+      }
+      document.title = `Usepopcorn | ${movieDetails.Title}`;
       return () => {
         document.title = 'usePopcorn';
       };
     },
-    [movieId]
+    [movieDetails]
   );
 
   return (
@@ -84,7 +65,7 @@ export default function MovieDetails({ movieId, onClosekMovieItem, addWatchItem,
                 </p>
               </div>
             ) : (
-              <StarRating maxLength={10} movieDetails={movieDetails} addMovieInWatchList={addMovieInWatchList} />
+              <StarRating maxLength={10} addMovieInWatchList={addMovieInWatchList} />
             )}
             <p>
               <em>{movieDetails.Plot}</em>

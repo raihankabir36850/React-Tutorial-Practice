@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Star from './Star';
 
-export default function StarRating({ maxLength, addMovieInWatchList, movieDetails }) {
+export default function StarRating({ maxLength, addMovieInWatchList }) {
   const [mouseOver, setMouseOver] = useState(0);
   const [rating, setRating] = useState(0);
 

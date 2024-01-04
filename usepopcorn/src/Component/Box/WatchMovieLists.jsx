@@ -1,6 +1,6 @@
 import WatchMovieItem from './WatchMovieItem';
 
-function WatchMovieLists({ watched, removeWatchItem }) {
+export default function WatchMovieLists({ watched, removeWatchItem }) {
   return (
     <>
       <ul className='list list-movies'>
@@ -11,5 +11,3 @@ function WatchMovieLists({ watched, removeWatchItem }) {
     </>
   );
 }
-
-export default WatchMovieLists;

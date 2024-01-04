@@ -1,5 +1,5 @@
 import MovieItem from './MovieItem';
-function MovieLists({ movies, onClickMovieItem }) {
+export default function MovieLists({ movies, onClickMovieItem }) {
   return (
     <ul className='list list-movies'>
       {movies.map((movie) => (
@@ -8,5 +8,3 @@ function MovieLists({ movies, onClickMovieItem }) {
     </ul>
   );
 }
-
-export default MovieLists;

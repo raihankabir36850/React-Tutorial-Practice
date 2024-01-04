@@ -1,4 +1,4 @@
-function MovieItem({ movie, onClickMovieItem }) {
+export default function MovieItem({ movie, onClickMovieItem }) {
   const { Poster, Title, Year } = movie;
   return (
     <li onClick={onClickMovieItem}>
@@ -13,5 +13,3 @@ function MovieItem({ movie, onClickMovieItem }) {
     </li>
   );
 }
-
-export default MovieItem;

@@ -1,4 +1,4 @@
-function WatchMovieItem({ movie, removeWatchItem }) {
+export default function WatchMovieItem({ movie, removeWatchItem }) {
   const { Poster, imdbID, Title, imdbRating, userRating, runtime } = movie;
   return (
     <li key={imdbID}>
@@ -24,5 +24,3 @@ function WatchMovieItem({ movie, removeWatchItem }) {
     </li>
   );
 }
-
-export default WatchMovieItem;
