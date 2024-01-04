@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Star from './Star';
 
-export default function StarRating({ maxLength, addWatchItem, movieDetails }) {
+export default function StarRating({ maxLength, addMovieInWatchList, movieDetails }) {
   const [mouseOver, setMouseOver] = useState(0);
   const [rating, setRating] = useState(0);
+
+  const count = useRef(0);
 
   function clickHandler(index) {
     setRating(index + 1);
@@ -16,6 +18,14 @@ export default function StarRating({ maxLength, addWatchItem, movieDetails }) {
   function mouseOutHandler(event) {
     setMouseOver(0);
   }
+
+  useEffect(
+    function () {
+      if (rating) count.current++;
+    },
+    [rating]
+  );
+
   return (
     <div className='rating'>
       <div className='starRatingBox'>
@@ -27,7 +37,7 @@ export default function StarRating({ maxLength, addWatchItem, movieDetails }) {
         <p className='text-container'>{mouseOver || rating || ''}</p>
       </div>
       {rating > 0 && (
-        <button className='btn-add' onClick={() => addWatchItem(rating, movieDetails)}>
+        <button className='btn-add' onClick={() => addMovieInWatchList(rating, count.current)}>
           + Add to list
         </button>
       )}

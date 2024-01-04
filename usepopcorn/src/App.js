@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { tempMovieData, tempWatchedData } from './Data';
 import NavComponent from './Component/NavComponent/NavComponent';
 import SearchBar from './Component/NavComponent/SearchBar';
 import NumResults from './Component/NavComponent/NumResults';
@@ -14,7 +13,10 @@ import './App.css';
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(function () {
+    const getWatchItems = localStorage.getItem('watchItem');
+    return getWatchItems ? JSON.parse(getWatchItems) : [];
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
@@ -61,21 +63,14 @@ export default function App() {
     setMovieId('');
   };
 
-  const addWatchItem = (rating, movieDetails) => {
-    const newWatchItem = {
-      imdbID: movieDetails.imdbID,
-      Title: movieDetails.Title,
-      Poster: movieDetails.Poster,
-      runtime: Number(movieDetails.Runtime.split(' ')[0]),
-      imdbRating: movieDetails.imdbRating,
-      userRating: rating,
-    };
-    setWatched([...watched, newWatchItem]);
-    onClosekMovieItem();
+  const addWatchItem = (movieDetails) => {
+    localStorage.setItem('watchItem', JSON.stringify([...watched, movieDetails]));
+    setWatched([...watched, movieDetails]);
   };
 
   const removeWatchItem = (id) => {
     const newWatchItems = [...watched].filter((item) => item.imdbID !== id);
+    localStorage.setItem('watchItem', JSON.stringify(newWatchItems));
     setWatched(newWatchItems);
   };
 

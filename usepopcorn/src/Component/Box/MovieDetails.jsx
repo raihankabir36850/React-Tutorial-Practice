@@ -6,6 +6,22 @@ export default function MovieDetails({ movieId, onClosekMovieItem, addWatchItem,
   const [movieDetails, setMovieDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  const selectedMovieDetail = watched.find((item) => item.imdbID === movieDetails.imdbID);
+
+  function addMovieInWatchList(rating, count) {
+    const newWatchItem = {
+      imdbID: movieDetails.imdbID,
+      Title: movieDetails.Title,
+      Poster: movieDetails.Poster,
+      runtime: Number(movieDetails.Runtime.split(' ')[0]),
+      imdbRating: movieDetails.imdbRating,
+      userRating: rating,
+      clickCount: count,
+    };
+    addWatchItem(newWatchItem);
+    onClosekMovieItem();
+  }
+
   useEffect(
     function () {
       const fetchMovieDetails = async () => {
@@ -36,8 +52,6 @@ export default function MovieDetails({ movieId, onClosekMovieItem, addWatchItem,
     },
     [movieId]
   );
-
-  const selectedMovieDetail = watched.find((item) => item.imdbID === movieDetails.imdbID);
 
   return (
     <div className='details'>
@@ -70,7 +84,7 @@ export default function MovieDetails({ movieId, onClosekMovieItem, addWatchItem,
                 </p>
               </div>
             ) : (
-              <StarRating maxLength={10} addWatchItem={addWatchItem} movieDetails={movieDetails} />
+              <StarRating maxLength={10} movieDetails={movieDetails} addMovieInWatchList={addMovieInWatchList} />
             )}
             <p>
               <em>{movieDetails.Plot}</em>
