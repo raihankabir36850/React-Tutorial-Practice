@@ -24,10 +24,6 @@ function reducer(state, action) {
       return { ...state, questionsSet: action.payLoad.questionsSet };
     case 'quizStart':
       return { ...state, status: action.payLoad.status, index: action.payLoad.index };
-    case 'loader':
-      return { ...state, isLoading: !state.isLoading };
-    case 'questionBank':
-      return { ...state, totalQuestions: action.payload.totalQuestions, questionsSet: action.payload.questionsSet, isLoading: !state.isLoading };
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
@@ -59,7 +55,7 @@ function App() {
     <div className='app'>
       <Header />
       <Main>
-        {!questionsSet.length && status === 'ready' && <Loader />}
+        {!questionsSet.length && <Loader />}
         {questionsSet.length > 0 && status === 'ready' && <Description quizStartHandler={quizStartHandler} totalQuestions={questionsSet.length} />}
         {status === 'active' && (
           <Quiz>
