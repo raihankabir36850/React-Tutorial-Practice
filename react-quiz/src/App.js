@@ -9,12 +9,14 @@ import Footer from './components/Footer';
 import Timer from './components/Timer';
 import Questions from './components/Questions';
 import Loader from './components/Loader';
+import Button from './components/Button';
 
 const initialState = {
   questionsSet: [],
-  index: null,
+  index: 0,
   points: 0,
   status: 'ready',
+  answer: null,
 };
 
 function reducer(state, action) {
@@ -23,7 +25,11 @@ function reducer(state, action) {
     case 'overview':
       return { ...state, questionsSet: action.payLoad.questionsSet };
     case 'quizStart':
-      return { ...state, status: action.payLoad.status, index: action.payLoad.index };
+      return { ...state, status: action.payLoad.status };
+    case 'optionClick':
+      return { ...state, answer: action.payLoad.answer, points: state.points + action.payLoad.points };
+    case 'nextButtonClick':
+      return { ...state, answer: null, index: state.index++ };
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
@@ -31,9 +37,9 @@ function reducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { questionsSet, index, points, status } = state;
+  const { questionsSet, index, points, status, answer } = state;
   function quizStartHandler() {
-    dispatch({ type: 'quizStart', payLoad: { index: 0, status: 'active' } });
+    dispatch({ type: 'quizStart', payLoad: { index: index, status: 'active' } });
   }
 
   async function getQuestions() {
@@ -45,11 +51,13 @@ function App() {
     //dispatch({ type: 'questionBank', payload: { questionsSet: [...data], totalQuestions: data.length, totalMark } });
   }
 
+  function nextButtonHandler() {
+    dispatch({ type: 'nextButtonClick', payload: { index: index, answer: null } });
+  }
+
   useEffect(function () {
     getQuestions();
   }, []);
-
-  console.log(initialState);
 
   return (
     <div className='app'>
@@ -59,10 +67,11 @@ function App() {
         {questionsSet.length > 0 && status === 'ready' && <Description quizStartHandler={quizStartHandler} totalQuestions={questionsSet.length} />}
         {status === 'active' && (
           <Quiz>
-            <ProgressBar questionsSet={questionsSet} index={index} points={points} />
-            {questionsSet.length && <Questions selectedQuestion={questionsSet[index]} />}
+            <ProgressBar questionsSet={questionsSet} index={index} points={points} answer={answer} />
+            {questionsSet.length && <Questions selectedQuestion={questionsSet[index]} dispatch={dispatch} actualPoints={points} answer={answer} />}
             <Footer>
               <Timer />
+              {answer !== null && <Button nextButtonHandler={nextButtonHandler} />}
             </Footer>
           </Quiz>
         )}

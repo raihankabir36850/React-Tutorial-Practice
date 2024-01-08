@@ -1,14 +1,23 @@
 import React from 'react';
 import Option from './Option';
 
-export default function Questions({ selectedQuestion }) {
-  console.log(selectedQuestion);
-  const { question, options } = selectedQuestion;
-  console.log(question, options);
+export default function Questions({ selectedQuestion, dispatch, actualPoints, answer }) {
+  const { question, options, correctOption, points } = selectedQuestion;
+
+  function optionSelectHandler(id) {
+    console.log('option clicked', id);
+    dispatch({ type: 'optionClick', payLoad: { answer: id, points: correctOption === id ? points : actualPoints } });
+  }
+
+  const selecetedAnswer = answer && answer;
+
   return (
     <div>
       <h4>{question}</h4>
-      <div className='options'>{options && options.map((option) => <Option text={option} key={option} />)}</div>
+      <div className='options'>
+        {options &&
+          options.map((option, index) => <Option text={option} key={option} id={index} optionSelectHandler={optionSelectHandler} selecetedAnswer={selecetedAnswer} correctOption={correctOption} />)}
+      </div>
     </div>
   );
 }
