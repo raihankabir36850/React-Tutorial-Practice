@@ -6,7 +6,7 @@ export default function Questions({ selectedQuestion, dispatch, actualPoints, an
 
   function optionSelectHandler(id) {
     console.log('option clicked', id);
-    dispatch({ type: 'optionClick', payLoad: { answer: id, points: correctOption === id ? points : actualPoints } });
+    dispatch({ type: 'optionClick', payLoad: { answer: id, points: correctOption === id ? points : 0 } });
   }
 
   const selecetedAnswer = answer && answer;
