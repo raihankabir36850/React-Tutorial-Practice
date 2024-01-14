@@ -1,19 +1,15 @@
-function MovieItem({ movie }) {
-    return (
-        <li>
-            <img
-                src={movie.Poster}
-                alt={movie.Title}
-            />
-            <h3>{movie.Title}</h3>
-            <div>
-                <p>
-                    <span>🗓</span>
-                    <span>{movie.Year}</span>
-                </p>
-            </div>
-        </li>
-    );
-};
-
-export default MovieItem;
+export default function MovieItem({ movie, onClickMovieItem }) {
+  const { Poster, Title, Year } = movie;
+  return (
+    <li onClick={onClickMovieItem}>
+      <img src={Poster} alt={Title} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{Year}</span>
+        </p>
+      </div>
+    </li>
+  );
+}
