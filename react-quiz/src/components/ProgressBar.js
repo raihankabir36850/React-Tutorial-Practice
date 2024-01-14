@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default function ProgressBar({ questionsSet, index, points, answer }) {
-  const totalPoints = [...questionsSet].reduce((accumulater, currentValue) => accumulater + currentValue.points, 0);
+export default function ProgressBar({ questionsSet, index, points, answer, totalPoints }) {
   return (
     <header className='progress'>
       <progress max={questionsSet.length} value={answer !== null ? index + 1 : index}></progress>

@@ -3,6 +3,7 @@ import Option from './Option';
 
 export default function Questions({ selectedQuestion, dispatch, actualPoints, answer }) {
   const { question, options, correctOption, points } = selectedQuestion;
+  console.log(question, 'hurrr');
 
   function optionSelectHandler(id) {
     console.log('option clicked', id);
