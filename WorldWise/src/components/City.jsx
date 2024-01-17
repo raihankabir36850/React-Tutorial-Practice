@@ -1,4 +1,6 @@
 import styles from './City.module.css';
+/* eslint-disable react/prop-types */
+import { useParams } from 'react-router-dom';
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat('en', {
@@ -8,15 +10,17 @@ const formatDate = (date) =>
     weekday: 'long',
   }).format(new Date(date));
 
-function City() {
-  // TEMP DATA
-  const currentCity = {
-    cityName: 'Lisbon',
-    emoji: '🇵🇹',
-    date: '2027-10-31T15:59:59.138Z',
-    notes: 'My favorite city so far!',
-  };
+// TEMP DATA
+const currentCity = {
+  cityName: 'Lisbon',
+  emoji: '🇵🇹',
+  date: '2027-10-31T15:59:59.138Z',
+  notes: 'My favorite city so far!',
+};
 
+export default function City({ cities }) {
+  const { id } = useParams();
+  const currentCity = cities.find((city) => city.id == id);
   const { cityName, emoji, date, notes } = currentCity;
 
   return (
@@ -51,5 +55,3 @@ function City() {
     </div>
   );
 }
-
-export default City;
