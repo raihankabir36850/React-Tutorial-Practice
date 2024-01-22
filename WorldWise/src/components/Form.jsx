@@ -44,12 +44,12 @@ function Form() {
         <textarea id='notes' onChange={(e) => setNotes(e.target.value)} value={notes} />
       </div>
 
-      <div className={styles.buttons}>
+      {/* <div className={styles.buttons}>
         <button>Add</button>
         <button>&larr; Back</button>
         <label htmlFor='date'>When did you go to {cityName}?</label>
         <input id='date' onChange={(e) => setDate(e.target.value)} value={date} />
-      </div>
+      </div> */}
 
       <div className={styles.row}>
         <label htmlFor='notes'>Notes about your trip to {cityName}</label>

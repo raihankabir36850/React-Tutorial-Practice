@@ -1,6 +1,10 @@
-import styles from './City.module.css';
 /* eslint-disable react/prop-types */
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCities } from '../contexts/CitiesContext';
+import styles from './City.module.css';
+import Spinner from './Spinner';
+import Button from './Button';
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat('en', {
@@ -10,18 +14,20 @@ const formatDate = (date) =>
     weekday: 'long',
   }).format(new Date(date));
 
-// TEMP DATA
-const currentCity = {
-  cityName: 'Lisbon',
-  emoji: '🇵🇹',
-  date: '2027-10-31T15:59:59.138Z',
-  notes: 'My favorite city so far!',
-};
-
-export default function City({ cities }) {
+export default function City() {
   const { id } = useParams();
-  const currentCity = cities.find((city) => city.id == id);
+  const { currentCity, getCity, isLoading } = useCities();
+  const navigate = useNavigate();
+
+  useEffect(
+    function () {
+      getCity(id);
+    },
+    [id]
+  );
   const { cityName, emoji, date, notes } = currentCity;
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div className={styles.city}>
@@ -52,6 +58,18 @@ export default function City({ cities }) {
       </div>
 
       <div></div>
+
+      <div className={styles.buttons}>
+        <Button
+          type='back'
+          onClick={(e) => {
+            e.preventDefault();
+            navigate(-1);
+          }}
+        >
+          &larr; Back
+        </Button>
+      </div>
     </div>
   );
 }
