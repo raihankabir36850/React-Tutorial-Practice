@@ -1,6 +1,9 @@
 import React from 'react';
+import { useQuiz } from '../contexts/QuizContext';
 
-export default function Button({ index, totalQuestions, dispatch }) {
+export default function Button() {
+  const { dispatch, index, questionsSet } = useQuiz();
+  const totalQuestions = questionsSet.length;
   if (index < totalQuestions - 1) {
     return (
       <button className='btn btn-ui' onClick={() => dispatch({ type: 'nextButtonClick', payload: { index: index, answer: null } })}>

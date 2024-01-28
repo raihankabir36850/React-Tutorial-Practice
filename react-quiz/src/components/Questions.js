@@ -1,9 +1,10 @@
 import React from 'react';
 import Option from './Option';
+import { useQuiz } from '../contexts/QuizContext';
 
-export default function Questions({ selectedQuestion, dispatch, actualPoints, answer }) {
-  const { question, options, correctOption, points } = selectedQuestion;
-  console.log(question, 'hurrr');
+export default function Questions() {
+  const { questionsSet, index, dispatch, answer } = useQuiz();
+  const { question, options, correctOption, points } = questionsSet[index];
 
   function optionSelectHandler(id) {
     console.log('option clicked', id);

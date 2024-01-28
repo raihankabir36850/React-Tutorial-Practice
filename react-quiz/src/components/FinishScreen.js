@@ -1,6 +1,9 @@
 import React from 'react';
+import { useQuiz } from '../contexts/QuizContext';
 
-export default function FinishScreen({ points, totalPoints, highestScore, dispatch }) {
+export default function FinishScreen() {
+  const { points, highestScore, dispatch, questionsSet } = useQuiz();
+  const totalPoints = [...questionsSet].reduce((accumulater, currentValue) => accumulater + currentValue.points, 0);
   const percentage = (points / totalPoints) * 100;
   return (
     <>

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useQuiz } from '../contexts/QuizContext';
 
-export default function Description({ quizStartHandler, totalQuestions }) {
+export default function Description() {
+  const { quizStartHandler, questionsSet } = useQuiz();
+  const totalQuestions = questionsSet.length;
   return (
     <div className='start'>
       <h2>Welcome to The React Quiz!</h2>
