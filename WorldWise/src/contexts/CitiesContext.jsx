@@ -1,27 +1,63 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
 
 const CitiesContext = createContext();
 const BASE_URL = 'http://localhost:8000';
 
+const initialState = {
+  cities: [],
+  isLoading: false,
+  currentCity: {},
+  error: '',
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'loading':
+      return { ...state, isLoading: true };
+    case 'cities/loaded':
+      return {
+        ...state,
+        isLoading: false,
+        cities: action.payload,
+      };
+    case 'city/loaded':
+      return {
+        ...state,
+        isLoading: false,
+        currentCity: action.payload,
+      };
+    case 'city/created':
+      return {
+        ...state,
+        isLoading: false,
+        cities: [...state.cities, action.payload],
+        currentCity: action.payload,
+      };
+    case 'city/deleted':
+      return {
+        ...state,
+        isLoading: false,
+        cities: state.cities.filter((city) => city.id !== action.payload),
+        currentCity: {},
+      };
+    case 'rejected':
+    default:
+      throw new Error('Action type is unknown.');
+  }
+}
 // eslint-disable-next-line react/prop-types
 function CitiesProvider({ children }) {
-  const [cities, setCities] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentCity, setCurrentCity] = useState({});
+  const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(reducer, initialState);
 
   useEffect(function () {
     async function fetchCities() {
+      dispatch({ type: 'loading' });
       try {
-        setIsLoading(true);
         const res = await fetch(`${BASE_URL}/cities`);
         const data = await res.json();
-        setCities(data);
+        dispatch({ type: 'cities/loaded', payload: data });
       } catch (e) {
-        console.log('There was an error fetching cities.');
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 5000);
+        dispatch({ type: 'rejected', payload: 'There was an error fetching cities...' });
       }
     }
 
@@ -29,23 +65,19 @@ function CitiesProvider({ children }) {
   }, []);
 
   async function getCity(id) {
+    dispatch({ type: 'loading' });
     try {
-      setIsLoading(true);
       const res = await fetch(`${BASE_URL}/cities/${id}`);
       const data = await res.json();
-      setCurrentCity(data);
+      dispatch({ type: 'city/loaded', payload: data });
     } catch (e) {
-      console.log('There was an error fetching city.');
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      dispatch({ type: 'rejected', payload: 'There was an error fetching city...' });
     }
   }
 
   async function createCity(cityName) {
+    dispatch({ type: 'loading' });
     try {
-      setIsLoading(true);
       const res = await fetch(`${BASE_URL}/cities/`, {
         method: 'POST',
         body: JSON.stringify(cityName),
@@ -54,13 +86,26 @@ function CitiesProvider({ children }) {
         },
       });
       const data = await res.json();
-      setCities((cities) => [...cities, data]);
+      dispatch({ type: 'city/created', payload: data });
     } catch (e) {
-      console.log('There was an error fetching city.');
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      dispatch({ type: 'rejected', payload: 'There was an error creating city.' });
+    }
+  }
+
+  async function deleteCity(id) {
+    dispatch({ type: 'loading' });
+
+    try {
+      await fetch(`${BASE_URL}/cities/${id}`, {
+        method: 'DELETE',
+      });
+
+      dispatch({ type: 'city/deleted', payload: id });
+    } catch {
+      dispatch({
+        type: 'rejected',
+        payload: 'There was an error deleting the city...',
+      });
     }
   }
 
@@ -70,8 +115,10 @@ function CitiesProvider({ children }) {
         cities,
         isLoading,
         currentCity,
+        error,
         getCity,
         createCity,
+        deleteCity,
       }}
     >
       {children}

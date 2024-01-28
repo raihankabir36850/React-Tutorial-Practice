@@ -1,42 +1,6 @@
 {
   "cities": [
     {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
-      "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
-      },
-      "id": "73930385"
-    },
-    {
-      "cityName": "Madrid",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
-      "notes": "",
-      "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
-      },
-      "id": "17806751"
-    },
-    {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
-      "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
-      },
-      "id": "98443197"
-    },
-    {
       "id": "87d9",
       "cityName": "Tortuero",
       "country": "Spain",
@@ -82,6 +46,42 @@
       "position": {
         "lat": "56.3409012041991",
         "lng": "14.062500000000002"
+      }
+    },
+    {
+      "id": "4ca8",
+      "cityName": "Serpa",
+      "country": "Portugal",
+      "emoji": "🇵🇹",
+      "date": "2024-01-28T12:36:15.976Z",
+      "notes": "okkk",
+      "position": {
+        "lat": "37.92686760148135",
+        "lng": "-7.316894531250001"
+      }
+    },
+    {
+      "id": "ebbc",
+      "cityName": "Braganca",
+      "country": "Portugal",
+      "emoji": "🇵🇹",
+      "date": "2024-01-28T13:54:03.521Z",
+      "notes": "wow",
+      "position": {
+        "lat": "41.77131167976407",
+        "lng": "-6.855468750000001"
+      }
+    },
+    {
+      "id": "5fa3",
+      "cityName": "Gazipur",
+      "country": "Bangladesh",
+      "emoji": "🇧🇩",
+      "date": "2024-01-28T13:54:22.959Z",
+      "notes": "test",
+      "position": {
+        "lat": "24.00632619875113",
+        "lng": "90.35156250000001"
       }
     }
   ]
